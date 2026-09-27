@@ -3,26 +3,26 @@
 устройство: 2e8a:000a
 серийный номер: 503558606AC6171F
 порт: COM9
-начало: 2026-09-27T17:48:00
+начало: 2026-09-27T18:03:15
    0.000 --> enable
-   0.127 <-- enable
-   0.128 <-- dbg read_line:66 got enable
-   0.130 <-- inf handle_command:29 led on
-   2.178 --> disable
-   2.327 <-- disable
-   2.327 <-- dbg read_line:66 got disable
-   2.328 <-- inf handle_command:34 led off
+   0.138 <-- enable
+   0.139 <-- dbg read_line:66 got enable
+   0.141 <-- inf handle_command:29 led on
+   2.173 --> disable
+   2.319 <-- disable
+   2.320 <-- dbg read_line:66 got disable
+   2.322 <-- inf handle_command:34 led off
    4.367 --> info
-   4.448 <-- info
-   4.449 <-- dbg read_line:66 got info
-   4.450 <-- project: 211-command-usb
-   4.452 <-- repo: https://github.com/DiZnaks/es-student
-   4.453 <-- board: pico
-   4.453 <-- serial: 503558606AC6171F
-   4.454 <-- chip: manufacturer 0x927, part 0x0002, revision 2
-   4.454 <-- pico-sdk: 2.3.0
-   6.505 --> nosuchcommand
-   6.769 <-- nosuchcommand
-   6.771 <-- dbg read_line:66 got nosuchcommand
-   6.772 <-- err handle_command:46 unknown command: �
+   4.459 <-- info
+   4.460 <-- dbg read_line:66 got info
+   4.461 <-- project: 211-command-usb
+   4.462 <-- repo: https://github.com/DiZnaks/es-student
+   4.463 <-- board: pico
+   4.464 <-- serial: 503558606AC6171F
+   4.465 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   4.465 <-- pico-sdk: 2.3.0
+   6.504 --> nosuchcommand
+   6.781 <-- nosuchcommand
+   6.783 <-- dbg read_line:66 got nosuchcommand
+   6.785 <-- err handle_command:46 unknown command: �
 итог: отправлено команд 4, принято строк 17
