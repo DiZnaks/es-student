@@ -13,16 +13,8 @@
 const uint BUTTON_PIN = 15;
 const uint DEBOUNCE_MS = 20;
 
-typedef void (*command_handler_t)(void);
-
 char line[LINE_SIZE];
 uint line_length = 0;
-
-struct command_t
-{
-    const char *name;
-    command_handler_t handler;
-};
 
 bool get_button_debounce(uint pin)
 {
