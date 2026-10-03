@@ -49,22 +49,22 @@ void fw_info(void)
     uint16_t *main_code = (uint16_t *)((uintptr_t)main & ~1u);
     uint16_t *fw_info_code = (uint16_t *)((uintptr_t)fw_info & ~1u);
 
-    printf("%-10s 0x%08X 0x%04X\n", "main", (unsigned)main, *main_code);
-    printf("%-10s 0x%08X 0x%04X\n", "fw_info", (unsigned)fw_info, *fw_info_code);
-    printf("%-10s 0x%08X\n", "commands", (unsigned)commands);
+    printf("%-10s 0x%08x 0x%04x\n", "main", (unsigned)main, *main_code);
+    printf("%-10s 0x%08x 0x%04x\n", "fw_info", (unsigned)fw_info, *fw_info_code);
+    printf("%-10s 0x%08x\n", "commands", (unsigned)commands);
 
     for (uint i = 0; i < command_count; i++) {
-        printf("  %-8s 0x%08X\n", 
+        printf("  %-8s 0x%08x\n", 
                commands[i].name, 
                (unsigned)commands[i].handler);
     }
 
-    printf("%-10s 0x%08X %s\n", "DEVICE_PROJECT", (unsigned)DEVICE_PROJECT, DEVICE_PROJECT);
-    printf("%-10s 0x%08X %s\n", "DEVICE_BOARD", (unsigned)DEVICE_BOARD, DEVICE_BOARD);
-    printf("%-10s 0x%08X %u\n", "data_variable", (unsigned)&data_variable, data_variable);
-    printf("%-10s 0x%08X %u\n", "bss_variable", (unsigned)&bss_variable, bss_variable);
-    printf("%-10s 0x%08X %u\n", "stack_variable", (unsigned)&stack_variable, stack_variable);
-    printf("%-10s 0x%08X %u\n", "heap_variable", (unsigned)heap_variable, *heap_variable);
+    printf("%-10s 0x%08x %s\n", "DEVICE_PROJECT", (unsigned)DEVICE_PROJECT, DEVICE_PROJECT);
+    printf("%-10s 0x%08x %s\n", "DEVICE_BOARD", (unsigned)DEVICE_BOARD, DEVICE_BOARD);
+    printf("%-10s 0x%08x %u\n", "data_variable", (unsigned)&data_variable, data_variable);
+    printf("%-10s 0x%08x %u\n", "bss_variable", (unsigned)&bss_variable, bss_variable);
+    printf("%-10s 0x%08x %u\n", "stack_variable", (unsigned)&stack_variable, stack_variable);
+    printf("%-10s 0x%08x %u\n", "heap_variable", (unsigned)heap_variable, *heap_variable);
 
     free(heap_variable);
 }
