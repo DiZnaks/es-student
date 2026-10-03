@@ -31,7 +31,8 @@ static void row(const char *name, uintptr_t start, uintptr_t end)
            name, (unsigned)start, (unsigned)end, (unsigned)(end - start));
 }
 
-void fw_info(void){
+void fw_info(void)
+{
     data_variable++;
     bss_variable++;
 
@@ -40,8 +41,8 @@ void fw_info(void){
     
     if (heap_variable != NULL)
     {
-           *heap_variable = 1951;
-       }
+       *heap_variable = 1951;
+    }
 
     printf("\n%-10s %-10s %-10s\n", "object", "address", "value");
 
