@@ -7,13 +7,19 @@
 #include "device.h"
 
 struct info_t device_card = {
-    0x00010000,
+    F_VERSION,
     DEVICE_NAME,
-    2,
+    0,
 };
 
 void dev_info(void)
 {
+    volatile uint32_t *chip_id = (uint32_t *)(SYSINFO_BASE + SYSINFO_CHIP_ID_OFFSET);
+    uint32_t id = *chip_id;
+    uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
+
+    device_card.revision = revision;
+
     printf("\n%-15s %-10s %6s %6s %s\n", "struct", "address", "size", "offset", "value");
 
     printf("%-15s 0x%08x %6u\n",

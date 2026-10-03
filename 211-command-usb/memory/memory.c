@@ -2,11 +2,15 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "hardware/regs/addressmap.h"
+#include "hardware/regs/sio.h"
 #include "pico/stdlib.h"
 #include "memory.h"
 #include "device.h"
 #include "command.h"
 #include "led.h"
+
+#define VECTOR_TABLE 0x10000100
+#define GPIO_IN_ADDR (SIO_BASE + SIO_GPIO_IN_OFFSET)
 
 extern char __flash_binary_start;
 extern char __flash_binary_end;
