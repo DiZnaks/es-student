@@ -6,6 +6,7 @@
 #include "memory.h"
 #include "device.h"
 #include "command.h"
+#include "led.h"
 
 extern char __flash_binary_start;
 extern char __flash_binary_end;
@@ -29,6 +30,27 @@ static void row(const char *name, uintptr_t start, uintptr_t end)
 {
     printf("%-10s 0x%08x 0x%08x %8u\n",
            name, (unsigned)start, (unsigned)end, (unsigned)(end - start));
+}
+
+void boot_info(void)
+{
+    const uint32_t *vectors = (const uint32_t *)VECTOR_TABLE;
+
+    volatile uint32_t *gpio_in = (volatile uint32_t *)GPIO_IN_ADDR;
+
+    uint32_t stack_top = vectors[0];
+    uint32_t reset_handler = vectors[1];
+    uint32_t level = (*gpio_in >> led_pin()) & 1u;
+    uint32_t gpio_get_val = gpio_get(led_pin());
+    uint32_t reset_handler_code = reset_handler & ~1u;
+
+    printf("vector table   0x%08x\n", VECTOR_TABLE);
+    printf("%-10s 0x%08x\n", "stack top", (unsigned)stack_top);
+    printf("%-10s 0x%08x\n", "reset", (unsigned)reset_handler);
+    printf("%-10s 0x%08x\n", "reset (even)", (unsigned)reset_handler_code);
+    printf("%-10s 0x%08x\n", "gpio in", (unsigned)GPIO_IN_ADDR);
+    printf("%-10s 0x%08x\n", "led bit", (unsigned)level);
+    printf("%-10s 0x%08x\n", "gpio_get", (unsigned)gpio_get_val);
 }
 
 void fw_info(void)

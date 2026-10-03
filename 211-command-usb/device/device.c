@@ -6,8 +6,6 @@
 #include "hardware/regs/sysinfo.h"
 #include "device.h"
 
-
-
 struct info_t device_card = {
     0x00010000,
     DEVICE_NAME,
