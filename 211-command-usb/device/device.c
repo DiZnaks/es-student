@@ -1,10 +1,54 @@
-#include "device.h"
-
 #include <stdio.h>
+#include <stddef.h>
 #include "pico/unique_id.h"
 #include "pico/version.h"
 #include "hardware/regs/addressmap.h"
 #include "hardware/regs/sysinfo.h"
+#include "device.h"
+
+
+
+struct info_t device_card = {
+    0x00010000,
+    DEVICE_NAME,
+    2,
+};
+
+void dev_info(void)
+{
+    printf("\n%-15s %-10s %6s %6s %s\n", "struct", "address", "size", "offset", "value");
+
+    printf("%-15s 0x%08x %6u\n",
+           "device_card",
+           (unsigned)&device_card,
+           (unsigned)sizeof(device_card));
+
+    printf("- %-13s 0x%08x %6u %6u 0x%08x\n",
+            "version",
+            &device_card.version,
+            sizeof(device_card.version),
+            offsetof(struct info_t, version),
+            device_card.version);
+
+    printf("- %-13s 0x%08x %6u %6u %s\n",
+            "name",
+            (unsigned)device_card.name,   // у массива имя — уже адрес!
+            (unsigned)sizeof(device_card.name),
+            (unsigned)offsetof(struct info_t, name),
+            device_card.name);
+
+    printf("- %-13s 0x%08x %6u %6u 0x%08x\n",
+           "revision",
+           (unsigned)&device_card.revision,
+           (unsigned)sizeof(device_card.revision),
+           (unsigned)offsetof(struct info_t, revision),
+           device_card.revision);
+
+    unsigned fields = sizeof(device_card.version) + sizeof(device_card.name) + sizeof(device_card.revision);
+    unsigned total = sizeof(device_card);
+
+    printf("fields %u, sizeof %u, padding %u\n", fields, total, total - fields);
+}
 
 void device_info(void)
 {
@@ -17,6 +61,7 @@ void device_info(void)
     uint32_t manufacturer = (id & SYSINFO_CHIP_ID_MANUFACTURER_BITS) >> SYSINFO_CHIP_ID_MANUFACTURER_LSB;
     uint32_t part = (id & SYSINFO_CHIP_ID_PART_BITS) >> SYSINFO_CHIP_ID_PART_LSB;
     uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
+
 
     printf("project: %s\n", DEVICE_PROJECT);
     printf("repo: %s\n", DEVICE_REPO);
