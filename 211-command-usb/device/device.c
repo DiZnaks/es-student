@@ -6,6 +6,7 @@
 #include "hardware/regs/sysinfo.h"
 #include "device.h"
 
+
 struct info_t device_card = {
     F_VERSION,
     DEVICE_NAME,
