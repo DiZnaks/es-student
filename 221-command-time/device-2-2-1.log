@@ -3,24 +3,24 @@
 устройство: 2e8a:000a
 серийный номер: 503558606AC6171F
 порт: COM9
-начало: 2026-10-20T19:19:41
+начало: 2026-10-20T19:29:42
    0.000 --> clk_info
-   0.164 <-- clk_info
-   0.165 <-- dbg read_line:128 got clk_info
-   0.167 <-- signal     set_khz measured_khz
-   0.169 <-- clk_ref      12000        12001
-   0.169 <-- clk_sys     125000       125000
-   0.170 <-- clk_peri    125000       125000
-   0.170 <-- clk_usb      48000        48000
-   0.171 <-- clk_adc      48000        48000
-   0.172 <-- rosc             -         5198
-   2.009 --> info
-   2.091 <-- info
-   2.092 <-- dbg read_line:128 got info
-   2.094 <-- project: 211-command-usb
-   2.095 <-- repo: https://github.com/DiZnaks/es-student
-   2.095 <-- board: pico
-   2.096 <-- serial: 503558606AC6171F
-   2.097 <-- chip: manufacturer 0x927, part 0x0002, revision 2
-   2.097 <-- pico-sdk: 2.3.0
+   0.174 <-- clk_info
+   0.176 <-- dbg read_line:128 got clk_info
+   0.177 <-- signal     set_khz measured_khz
+   0.179 <-- clk_ref      12000        12001
+   0.179 <-- clk_sys     125000       125001
+   0.180 <-- clk_peri    125000       125000
+   0.181 <-- clk_usb      48000        48000
+   0.181 <-- clk_adc      48000        48000
+   0.182 <-- rosc             -         5195
+   2.010 --> info
+   2.101 <-- info
+   2.103 <-- dbg read_line:128 got info
+   2.104 <-- project: 211-command-usb
+   2.106 <-- repo: https://github.com/DiZnaks/es-student
+   2.107 <-- board: pico
+   2.108 <-- serial: 503558606AC6171F
+   2.108 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   2.109 <-- pico-sdk: 2.3.0
 итог: отправлено команд 2, принято строк 17
