@@ -59,6 +59,16 @@ void cmd_uptime(void)
     uptime();
 }
 
+void cmd_clk_sys_default(void)
+{
+    clk_sys_default();
+}
+
+void cmd_clk_sys_low(void)
+{
+    clk_sys_low();
+}
+
 volatile double pi_result;
 
 // прикидка: за член ряда 4 операции с double, 175 + 110 + 190 + 110 = 585 тактов;
@@ -100,6 +110,8 @@ void cmd_main_time_reset(void)
     printf("max reset\n");
 }
 
+
+
 const struct command_t commands[] = {
     { "info", cmd_info },
     { "version", cmd_version },
@@ -113,6 +125,8 @@ const struct command_t commands[] = {
     { "calc_pi", cmd_calc_pi },
     { "main_time_exec", cmd_main_time_exec },
     { "main_time_reset", cmd_main_time_reset },
+    { "clk_sys_low", cmd_clk_sys_low },
+    { "clk_sys_default", cmd_clk_sys_default },
 };
 
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
