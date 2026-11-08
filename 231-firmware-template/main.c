@@ -6,6 +6,7 @@
 #include "api.h"
 #include "stdio-text-protocol.h"
 #include "led-task.h"
+#include "button-task.h"
 
 
 int main(void)
@@ -13,6 +14,7 @@ int main(void)
     stdio_init_all();
     led_task_init(); 
     profiling_init();
+    button_task_init(); 
     stdio_text_protocol_init();
 
     while (1) {
@@ -24,5 +26,6 @@ int main(void)
         }
 
         led_task_handle();
+        button_task_handle();
     }
 }

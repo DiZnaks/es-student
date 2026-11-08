@@ -11,6 +11,7 @@
 #include "device.h"
 #include "profiling.h"
 #include "led-task.h"
+#include "button-task.h"
 
 typedef void (*api_callback_t)(const command_t *command);
 
@@ -136,6 +137,13 @@ static void cmd_led_period(const command_t *c)
     print_led_response();
 }
 
+static void cmd_button(const command_t *c)
+{
+    (void)c;
+    printf("button: %s, presses %lu\n",
+           button_task_is_pressed() ? "pressed" : "released",
+           (unsigned long)button_task_get_press_count());
+}
 
 // ---- таблица ----
 static const api_command_t api_commands[] = {
@@ -149,6 +157,7 @@ static const api_command_t api_commands[] = {
     { "calc_pi",         "calculate pi: calc_pi [terms]",                  cmd_calc_pi },
     { "main_time_exec",  "superloop iteration: average and maximum",       cmd_main_time_exec },
     { "main_time_reset", "reset maximum iteration",                        cmd_main_time_reset },
+    { "button",          "button state and press count",                   cmd_button },
 };
 
 static const uint32_t api_command_count =
