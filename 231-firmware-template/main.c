@@ -1,28 +1,17 @@
 #include <stdio.h>
 
 #include "pico/stdlib.h"
-#include "led.h"
 #include "device.h"
 #include "profiling.h"
 #include "api.h"
 #include "stdio-text-protocol.h"
+#include "led-task.h"
 
-static const uint32_t BLINK_HALF_PERIOD_US = 500000;
-static uint64_t last_toggle_us = 0;
-
-static void blink(void)
-{
-    uint64_t now_us = time_us_64();
-    if (now_us - last_toggle_us >= BLINK_HALF_PERIOD_US) {
-        last_toggle_us += BLINK_HALF_PERIOD_US;      // от прошлой метки (т2.3.3)
-        led_toggle();
-    }
-}
 
 int main(void)
 {
     stdio_init_all();
-    led_init();
+    led_task_init(); 
     profiling_init();
     stdio_text_protocol_init();
 
@@ -34,6 +23,6 @@ int main(void)
             api_handle(command);
         }
 
-        blink();
+        led_task_handle();
     }
 }

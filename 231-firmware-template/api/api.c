@@ -10,6 +10,7 @@
 #include "pico/stdlib.h"
 #include "device.h"
 #include "profiling.h"
+#include "led-task.h"
 
 typedef void (*api_callback_t)(const command_t *command);
 
@@ -24,13 +25,13 @@ typedef struct
 // ---- parse_u32 из т2.3.8 ----
 static bool parse_u32(const char *text, uint32_t *value)
 {
-    if (!isdigit((unsigned char)text[0])) return false;
+    if (!isdigit((unsigned char)text[0])) { return false; }
 
     char *end;
     errno = 0;
     unsigned long number = strtoul(text, &end, 10);
 
-    if (*end != '\0' || errno == ERANGE || number > UINT32_MAX) return false;
+    if (*end != '\0' || errno == ERANGE || number > UINT32_MAX) { return false; }
 
     *value = (uint32_t)number;
     return true;
@@ -55,10 +56,7 @@ static void cmd_calc_pi(const command_t *c)
 {
     uint32_t terms = CALC_PI_TERMS;
     if (c->argc > 1) { printf("error: usage calc_pi [terms]\n"); return; }
-    if (c->argc == 1 && !parse_u32(c->argv[0], &terms)) {
-        printf("error: usage calc_pi [terms]\n");
-        return;
-    }
+    if (c->argc == 1 && !parse_u32(c->argv[0], &terms)) { printf("error: usage calc_pi [terms]\n"); return; }
     if (terms == 0) { printf("error: terms must be greater than 0\n"); return; }
 
     uint64_t start_us = time_us_64();
@@ -78,7 +76,7 @@ static void cmd_uptime(const command_t *c)
 static void cmd_info(const command_t *c)
 {
     (void)c;
-    device_info(); // твоя функция из device.c
+    device_info();
 }
 
 static void cmd_main_time_exec(const command_t *c)
@@ -95,16 +93,64 @@ static void cmd_main_time_reset(const command_t *c)
     printf("max reset\n");
 }
 
+static void print_led_response(void)
+{
+    const char *names[] = { "off", "on", "blink" };
+    printf("led: %s, period %lu ms\n",
+           names[led_task_get_state()],
+           (unsigned long)led_task_get_period_ms());
+}
+
+static void cmd_led_enable(const command_t *c)
+{
+    (void)c;
+    led_task_set_state(LED_STATE_ON);
+    print_led_response();
+}
+
+static void cmd_led_disable(const command_t *c)
+{
+    (void)c;
+    led_task_set_state(LED_STATE_OFF);
+    print_led_response();
+}
+
+static void cmd_led_blink(const command_t *c)
+{
+    (void)c;
+    led_task_set_state(LED_STATE_BLINK);
+    print_led_response();
+}
+
+static void cmd_led_period(const command_t *c)
+{
+    uint32_t p;
+    if (c->argc != 1 || !parse_u32(c->argv[0], &p)) {
+        printf("error: usage led_period <period_ms>\n");
+        return;
+    }
+    if (!led_task_set_period_ms(p)) {
+        printf("error: period_ms must be greater than 0\n");
+        return;
+    }
+    print_led_response();
+}
+
 
 // ---- таблица ----
 static const api_command_t api_commands[] = {
     { "help",            "list of commands",                               NULL },
     { "info",            "device passport",                                cmd_info },
     { "uptime",          "time since reset",                               cmd_uptime },
+    { "led_enable",      "turn led on",                                    cmd_led_enable },
+    { "led_disable",     "turn led off",                                   cmd_led_disable },
+    { "led_blink",       "make led blink",                                 cmd_led_blink },
+    { "led_period",      "set blink period: led_period <period_ms>",       cmd_led_period },
     { "calc_pi",         "calculate pi: calc_pi [terms]",                  cmd_calc_pi },
     { "main_time_exec",  "superloop iteration: average and maximum",       cmd_main_time_exec },
     { "main_time_reset", "reset maximum iteration",                        cmd_main_time_reset },
 };
+
 static const uint32_t api_command_count =
     sizeof(api_commands) / sizeof(api_commands[0]);
 
