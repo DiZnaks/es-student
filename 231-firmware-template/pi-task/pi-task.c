@@ -1,5 +1,6 @@
 #include "pi-task.h"
 #include "pico/stdlib.h"
+#include "systime/systime.h"
 
 // Цена члена ряда ≈ 585 тактов = 4,7 мкс при 125 МГц.
 // 100 членов ≈ 470 мкс < 0,5 мс — укладываемся в Н1.
@@ -33,7 +34,7 @@ bool pi_task_start(uint32_t terms)
     pi_sum = 0.0;
     pi_sign = 1.0;
     pi_result = 0.0;
-    pi_start_us = time_us_64();
+    pi_start_us = systime_us();
     pi_time_ms = 0;
     pi_state = PI_STATE_RUNNING;
     return true;
@@ -58,7 +59,7 @@ void pi_task_handle(void)
 
     if (pi_k >= pi_n) {
         pi_result = 4.0 * pi_sum;
-        pi_time_ms = (time_us_64() - pi_start_us) / 1000;
+        pi_time_ms = (systime_us() - pi_start_us) / 1000;
         pi_state = PI_STATE_DONE;
     }
 }

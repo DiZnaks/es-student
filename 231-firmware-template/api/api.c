@@ -13,6 +13,8 @@
 #include "led-task/led-task.h"
 #include "button-task/button-task.h"
 #include "pi-task/pi-task.h"
+#include "systime/systime.h"
+#include "firmware.h"
 
 typedef void (*api_callback_t)(const command_t *command);
 
@@ -42,7 +44,7 @@ static bool parse_u32(const char *text, uint32_t *value)
 static void cmd_uptime(const command_t *c)
 {
     (void)c;
-    printf("uptime: %llu ms\n", time_us_64() / 1000);
+    printf("uptime: %llu ms\n", systime_ms());
 }
 
 static void print_led_response(void)
@@ -148,10 +150,10 @@ static void cmd_info(const command_t *c)
     (void)c;
     device_info_t info;
     device_get_info(&info);
-    printf("name: %s\n",    DEVICE_NAME);
+    printf("name: %s\n",    FIRMWARE_NAME);
     printf("version: %s\n", FIRMWARE_VERSION);
-    printf("project: %s\n", DEVICE_PROJECT);
-    printf("repo: %s\n",    DEVICE_REPO);
+    printf("project: %s\n", FIRMWARE_PROJECT);
+    printf("repo: %s\n",    FIRMWARE_REPO);
     printf("board: %s\n",   info.board);
     printf("serial: %s\n",  info.serial);
     printf("chip: manufacturer 0x%03x, part 0x%04x, revision %u\n",

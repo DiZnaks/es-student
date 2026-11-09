@@ -1,10 +1,10 @@
+#include "device/device.h"
 #include <stdio.h>
 #include <string.h>
 #include "pico/unique_id.h"
 #include "pico/version.h"
 #include "hardware/regs/addressmap.h"
 #include "hardware/regs/sysinfo.h"
-#include "device/device.h"
 
 void device_get_info(device_info_t *info)
 {

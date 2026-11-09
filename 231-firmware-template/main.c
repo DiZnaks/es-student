@@ -9,6 +9,7 @@
 #include "button-task.h"
 #include "pi-task/pi-task.h"
 #include "systime/systime.h"
+#include "firmware.h"
 
 typedef enum {
     STOPWATCH_LOOP,
@@ -32,7 +33,7 @@ int main(void)
     pi_task_init();
     stdio_text_protocol_init();
 
-    LOG_INF("%s %s\n", DEVICE_NAME, FIRMWARE_VERSION);
+    LOG_INF("%s %s\n", FIRMWARE_NAME, FIRMWARE_VERSION);
 
     while (1) {
         profiling_start(STOPWATCH_LOOP);

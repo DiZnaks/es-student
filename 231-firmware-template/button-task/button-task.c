@@ -1,6 +1,7 @@
 #include "button-task.h"
 #include "led-task/led-task.h"
 #include "pico/stdlib.h"
+#include "systime/systime.h"
 
 #ifndef BUTTON_PIN
 #define BUTTON_PIN 15
@@ -40,7 +41,7 @@ void button_task_init(void)
 void button_task_handle(void)
 {
     bool pressed = button_level_pressed();
-    uint64_t now_us = time_us_64();
+    uint64_t now_us = systime_us();
 
     switch (button_state) {
     case BTN_RELEASED:
