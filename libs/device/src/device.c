@@ -4,7 +4,7 @@
 #include "pico/version.h"
 #include "hardware/regs/addressmap.h"
 #include "hardware/regs/sysinfo.h"
-#include "device.h"
+#include "device/device.h"
 
 void device_get_info(device_info_t *info)
 {

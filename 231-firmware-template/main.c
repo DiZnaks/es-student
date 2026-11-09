@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
-#include "device.h"
-#include "log.h"
-#include "profiling.h"
-#include "api.h"
-#include "stdio-text-protocol.h"
-#include "led-task.h"
+#include "device/device.h"
+#include "logging/log.h"
+#include "profiling/profiling.h"
+#include "api/api.h"
+#include "stdio-text-protocol/stdio-text-protocol.h"
+#include "led-task/led-task.h"
 #include "button-task.h"
-#include "pi-task.h"
+#include "pi-task/pi-task.h"
+#include "systime/systime.h"
 
 typedef enum {
     STOPWATCH_LOOP,

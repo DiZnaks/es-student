@@ -8,11 +8,11 @@
 #include <stdbool.h>
 
 #include "pico/stdlib.h"
-#include "device.h"
-#include "profiling.h"
-#include "led-task.h"
-#include "button-task.h"
-#include "pi-task.h"
+#include "device/device.h"
+#include "profiling/profiling.h"
+#include "led-task/led-task.h"
+#include "button-task/button-task.h"
+#include "pi-task/pi-task.h"
 
 typedef void (*api_callback_t)(const command_t *command);
 
