@@ -164,17 +164,23 @@ static void cmd_info(const command_t *c)
 static void cmd_profiling(const command_t *c)
 {
     (void)c;
+
+#if PROFILING_ENABLED
     profiling_result_t res;
     for (uint32_t i = 0; i < PROFILING_MAX_STOPWATCHES; i++) {
         if (!profiling_get(i, &res)) continue;
-        if (res.count == 0) continue;
+        if (res.count == 0) continue; // не выводим пустые секундомеры
+        
         float mean = (float)res.sum_us / res.count;
         printf("%-10s count %-8lu mean %.2f us  max %lu us\n",
-               res.name,
-               (unsigned long)res.count,
-               mean,
+               res.name, 
+               (unsigned long)res.count, 
+               mean, 
                (unsigned long)res.max_us);
     }
+#else
+    printf("profiling is disabled in this build\n");
+#endif
 }
 
 static void cmd_profiling_reset(const command_t *c)
