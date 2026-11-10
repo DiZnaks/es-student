@@ -1,13 +1,10 @@
-#include "button-task.h"
-#include "led-task/led-task.h"
-#include "pico/stdlib.h"
+#include "button-task/button-task.h"
+#include "platform/platform.h"
 #include "systime/systime.h"
 
-#ifndef BUTTON_PIN
-#define BUTTON_PIN 15
-#endif
+#include <stddef.h> // для NULL
+#include <stdbool.h>
 
-// Время подавления дребезга: 20 мс в микросекундах
 #define DEBOUNCE_US 20000
 
 typedef enum {
@@ -20,27 +17,23 @@ typedef enum {
 static button_state_t button_state = BTN_RELEASED;
 static uint64_t       state_start_us = 0;
 static uint32_t       press_count = 0;
+static button_task_callback_t press_callback = NULL;
 
-// Уровень на выводе: 0 = нажата (замыкает на землю), 1 = отпущена
-static bool button_level_pressed(void)
+void button_task_init(button_task_callback_t on_press)
 {
-    return gpio_get(BUTTON_PIN) == 0;
-}
-
-void button_task_init(void)
-{
-    gpio_init(BUTTON_PIN);
-    gpio_set_dir(BUTTON_PIN, GPIO_IN);
-    gpio_pull_up(BUTTON_PIN);         // подтяжка к питанию
-
+    // НИКАКИХ gpio_init! Железо настроено в platform_init()
+    
     button_state = BTN_RELEASED;
     state_start_us = 0;
     press_count = 0;
+    
+    // Сохраняем переданный указатель на функцию
+    press_callback = on_press;
 }
 
 void button_task_handle(void)
 {
-    bool pressed = button_level_pressed();
+    bool pressed = platform_button_read();
     uint64_t now_us = systime_us();
 
     switch (button_state) {
@@ -57,7 +50,10 @@ void button_task_handle(void)
         } else if (now_us - state_start_us >= DEBOUNCE_US) {
             button_state = BTN_PRESSED;           // подтверждено
             press_count++;
-            led_task_next_state();                // одно нажатие — одно переключение
+            // Вызываем переданную функцию (если она есть)
+            if (press_callback != NULL) {
+                press_callback();
+            }
         }
         break;
 
@@ -80,7 +76,6 @@ void button_task_handle(void)
 
 bool button_task_is_pressed(void)
 {
-    // «нажата» и «отпускание?» — кнопка ещё нажата
     return button_state == BTN_PRESSED || button_state == BTN_RELEASING;
 }
 

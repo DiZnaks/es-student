@@ -1,5 +1,4 @@
 #include "pi-task.h"
-#include "pico/stdlib.h"
 #include "systime/systime.h"
 
 // Цена члена ряда ≈ 585 тактов = 4,7 мкс при 125 МГц.
